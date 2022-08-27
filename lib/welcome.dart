@@ -121,7 +121,7 @@ class _WelcomeState extends State<Welcome> {
                         ),
                         onPressed: () {
                           setState(() {
-                            if (_welcomeMessage.length == messageNumber) {
+                            if (_welcomeMessage.length-1 == messageNumber) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
