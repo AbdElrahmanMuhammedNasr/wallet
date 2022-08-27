@@ -10,6 +10,31 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  int messageNumber = 0;
+  List _welcomeMessage = [
+    {
+      "title": "Smart wallet for everyone",
+      "message":
+          'is a long established fact that a reader will be distracted by the readable'
+              ' content of a page when looking at its'
+              ' layout. The point of using Lorem Ipsum is that it has a more-or-less '
+              'normal distribution of letters, as opposed to using'
+    },
+    {
+      "title": "How to get wallet",
+      "message":
+          'is a long established fact that a reader will be distracted by the readable'
+              ' layout. The point of using Lorem Ipsum is that it has a more-or-less '
+              'normal distribution of letters, as opposed to using'
+    },
+    {
+      "title": "Welcome in wallet",
+      "message":
+          'is a long established fact that a reader will be distracted by the readable'
+              ' content of a page when looking at its'
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +45,7 @@ class _WelcomeState extends State<Welcome> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'swallet',
+              'wallet',
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -49,28 +74,27 @@ class _WelcomeState extends State<Welcome> {
               color: Color(0xFF232225),
             ),
             width: MediaQuery.of(context).size.width,
-            // height: 250,
             child: Padding(
               padding: const EdgeInsets.all(13),
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Smart wallet for evetyone',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 45),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '${_welcomeMessage[messageNumber]['title']}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 45),
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'is a long established fact that a reader will be distracted by the readable'
-                      ' content of a page when looking at its'
-                      ' layout. The point of using Lorem Ipsum is that it has a more-or-less '
-                      'normal distribution of letters, as opposed to using',
+                      '${_welcomeMessage[messageNumber]['message']}',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.normal,
@@ -96,12 +120,18 @@ class _WelcomeState extends State<Welcome> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Home(),
-                            ),
-                          );
+                          setState(() {
+                            if (_welcomeMessage.length == messageNumber) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(),
+                                ),
+                              );
+                            } else {
+                              messageNumber = messageNumber + 1;
+                            }
+                          });
                         },
                         child: Row(
                           children: [
@@ -128,7 +158,14 @@ class _WelcomeState extends State<Welcome> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Home(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Skip',
                           style: TextStyle(fontWeight: FontWeight.bold),
