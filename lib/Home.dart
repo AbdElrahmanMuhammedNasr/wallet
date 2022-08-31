@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallet/Constant/Color.dart';
+import 'package:wallet/Transaction.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -88,11 +89,17 @@ Widget visa(BuildContext context) {
         ),
         Container(
           margin: EdgeInsets.symmetric(vertical: 15),
-          child: SvgPicture.asset(
-            'images/1.svg',
+          child: Image.asset(
+            'images/visaBlack.gif',
+            // 'images/visaBlue.gif',
             height: MediaQuery.of(context).size.height / 3,
             width: MediaQuery.of(context).size.width,
           ),
+          // child: SvgPicture.asset(
+          //   'images/1.svg',
+          // height: MediaQuery.of(context).size.height / 3,
+          // width: MediaQuery.of(context).size.width,
+          // ),
         ),
       ],
     ),
@@ -101,15 +108,15 @@ Widget visa(BuildContext context) {
 
 Widget option(BuildContext context) {
   List list1 = [
-    {'name': 'Withdraw', 'icon': 'reload'},
-    {'name': 'Top up', 'icon': 'reload'},
+    {'name': 'Withdraw', 'icon': 'rotate-right', 'color': Color(0xFF8eb6fc)},
+    {'name': 'Top up', 'icon': 'add', 'color': Color(0xFFffdcb2)},
   ];
   List list2 = [
-    {'name': 'Transfer', 'icon': 'tranfer'},
-    {'name': 'More', 'icon': 'menu'},
+    {'name': 'Transfer', 'icon': 'refresh', 'color': Color(0xFFf190a9)},
+    {'name': 'More', 'icon': 'grid', 'color': Color(0xFF94e17e)},
   ];
 
-  Widget subOption(icon, name) {
+  Widget subOption(icon, name, customcolor) {
     print(icon);
     print(name);
     return Container(
@@ -122,11 +129,23 @@ Widget option(BuildContext context) {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Row(
           children: [
-            Image.asset(
-              'images/option/${icon}.gif',
-              width: 50,
-              height: 50,
+            Container(
+              decoration: BoxDecoration(
+                  color: customcolor, borderRadius: BorderRadius.circular(50)),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: SvgPicture.asset(
+                  "images/option/${icon}.svg",
+                  width: 25,
+                  height: 25,
+                ),
+              ),
             ),
+            // Image.asset(
+            //   'images/option/${icon}.gif',
+            //   width: 50,
+            //   height: 50,
+            // ),
             // Icon(Icons.reload),
             SizedBox(
               width: 10,
@@ -149,22 +168,26 @@ Widget option(BuildContext context) {
     children: [
       Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: list1.map((e) => subOption(e['icon'], e['name'])).toList()),
+          children: list1
+              .map((e) => subOption(e['icon'], e['name'], e['color']))
+              .toList()),
       SizedBox(
         height: 20,
       ),
       Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: list2.map((e) => subOption(e['icon'], e['name'])).toList()),
+          children: list2
+              .map((e) => subOption(e['icon'], e['name'], e['color']))
+              .toList()),
     ],
   ));
 }
 
 Widget bills(BuildContext context) {
   List _pay = [
-    {'name': 'Water', 'icon': 'water'},
-    {'name': 'Electricity', 'icon': 'energy'},
-    {'name': 'Internet', 'icon': 'internet'},
+    {'name': 'Water', 'icon': 'raindrops','color': Color(0xFF8eb6fc)},
+    {'name': 'Electricity', 'icon': 'bolt','color': Color(0xFFffcc8e)},
+    {'name': 'Internet', 'icon': 'globe','color': Color(0xFFc690f1)},
   ];
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -181,12 +204,22 @@ Widget bills(BuildContext context) {
                     fontWeight: FontWeight.normal,
                     fontSize: 25),
               ),
-              Text(
-                'See all',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15),
+              GestureDetector(
+                onTap: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Transaction(),
+                    ),
+                  );
+                }),
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
               ),
             ],
           ),
@@ -208,11 +241,20 @@ Widget bills(BuildContext context) {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                'images/bill/${e['icon']}.png',
-                                width: 80,
-                                // height: 100,
+                              // Image.asset(
+                              Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: SvgPicture.asset(
+                                  "images/bill/${e['icon']}.svg",
+                                  width: 60,
+                                  height: 60,
+                                  color: e['color'],
+                                ),
                               ),
+                              //   'images/bill/${e['icon']}.png',
+                              //   width: 80,
+                              //   // height: 100,
+                              // ),
                               SizedBox(
                                 height: 15,
                               ),
@@ -252,14 +294,14 @@ Widget transaction(BuildContext context) {
       'amount': '4500',
       'type': 'income'
     },
-     {
+    {
       'name': 'facebook',
       'icon': 'Facebook',
       'date': '2-3-2030',
       'amount': '4500',
       'type': 'income'
     },
-     {
+    {
       'name': 'instagram',
       'icon': 'Instagram',
       'date': '2-3-2030',
@@ -289,12 +331,22 @@ Widget transaction(BuildContext context) {
                     fontWeight: FontWeight.normal,
                     fontSize: 25),
               ),
-              Text(
-                'See all',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15),
+              GestureDetector(
+                onTap: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Transaction(),
+                    ),
+                  );
+                }),
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15),
+                ),
               ),
             ],
           ),
@@ -303,36 +355,44 @@ Widget transaction(BuildContext context) {
           Column(
             children: _transactions
                 .map(
-                  (e) => ListTile(
-                    leading: Image.asset(
-                      'images/transaction/${e['icon']}.png',
-                      width: 70,
-                      height: 70,
+                  (e) => Card(
+                    margin: EdgeInsets.symmetric(vertical: 7),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    title: Text(
-                      '${e['name']}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Text(
-                        '${e['date']}',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15),
+                    color: Color(0xFF38383b),
+                    child: ListTile(
+                      leading: Image.asset(
+                        'images/transaction/${e['icon']}.png',
+                        width: 70,
+                        height: 70,
                       ),
-                    ),
-                    trailing: Text(
-                      '${e['amount']} EGP',
-                      style: TextStyle(
-                          color:
-                              e['type'] == 'income' ? Colors.green : Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                      title: Text(
+                        '${e['name']}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Text(
+                          '${e['date']}',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15),
+                        ),
+                      ),
+                      trailing: Text(
+                        '${e['amount']} EGP',
+                        style: TextStyle(
+                            color: e['type'] == 'income'
+                                ? Colors.green
+                                : Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
                     ),
                   ),
                 )
